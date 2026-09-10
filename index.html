@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         body {
-            background: #b31b1b;
+            background: #6b0f0f; /* 深红色底色，衬托信封 */
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -19,20 +19,57 @@
             font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
             padding: 24px 16px;
         }
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
         .letter-container {
             background: #b31b1b;
-            border-radius: 18px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35);
-            padding: 36px 28px;
-            max-width: 700px;
-            width: 100%;
+            border-radius: 12px;
+            padding: 80px 30px 110px 30px; /* 为顶部翻盖和底部折线留出空间 */
             position: relative;
+            z-index: 1;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3), 0 15px 50px rgba(0, 0, 0, 0.6);
         }
+        /* 顶部信封翻盖 */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #9e1a1a;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            z-index: 2;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        /* 底部信封折线 */
+        .envelope-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #9e1a1a;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            z-index: 2;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+        }
+
         .letter-content {
             font-size: 18px;
             line-height: 2.0;
             word-break: break-word;
+            position: relative;
+            z-index: 3;
         }
         .paragraph {
             text-indent: 2em;
@@ -41,11 +78,11 @@
         .title-paragraph {
             text-indent: 0;
             text-align: center;
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 600;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-shadow: 0 2px 12px rgba(255, 215, 0, 0.25);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             line-height: 1.8;
         }
         .char {
@@ -85,8 +122,18 @@
                 padding: 16px 10px;
             }
             .letter-container {
-                padding: 28px 20px;
-                border-radius: 14px;
+                padding: 65px 20px 90px 20px;
+                border-radius: 10px;
+            }
+            .envelope-flap {
+                height: 65px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+            .envelope-bottom {
+                height: 65px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
             }
             .letter-content {
                 font-size: 17px;
@@ -94,7 +141,7 @@
             }
             .title-paragraph {
                 font-size: 28px;
-                letter-spacing: 3px;
+                letter-spacing: 4px;
             }
         }
         @media (max-width: 400px) {
@@ -102,8 +149,18 @@
                 padding: 12px 6px;
             }
             .letter-container {
-                padding: 22px 14px;
-                border-radius: 12px;
+                padding: 55px 14px 80px 14px;
+                border-radius: 8px;
+            }
+            .envelope-flap {
+                height: 55px;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .envelope-bottom {
+                height: 55px;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
             }
             .letter-content {
                 font-size: 16px;
@@ -111,14 +168,18 @@
             }
             .title-paragraph {
                 font-size: 24px;
-                letter-spacing: 2px;
+                letter-spacing: 3px;
             }
         }
     </style>
 </head>
 <body>
-<div class="letter-container">
-    <div class="letter-content" id="letterContent"></div>
+<div class="envelope-wrapper">
+    <div class="envelope-flap"></div>
+    <div class="letter-container">
+        <div class="letter-content" id="letterContent"></div>
+    </div>
+    <div class="envelope-bottom"></div>
 </div>
 
 <script>
@@ -126,7 +187,7 @@
     // ---------- 致敬信全文（[[...]] 内为黄色字体） ----------
     const paragraphs = [
         { text: '致敬信', isTitle: true },
-        { text: '亲爱的员工朋友们：', noIndent: true },   // ← 这里加 noIndent: true
+        { text: '亲爱的员工朋友们：', noIndent: true },
         { text: '大家好！' },
         { text: '生产复发轫，佳节又重阳。今天，我们齐聚一堂，召开2026年度生产·质量大会，系统总结过去一年的奋斗历程，共同擘画新一年的宏伟蓝图。在此，公司党委、董事会和经营班子，向辛勤耕耘在生产、质量一线的员工致以亲切的问候，向默默奋进在各条工作战线上的全体员工表达最诚挚的敬意！' },
         { text: '回首这一年，我们以专注诠释责任、以合力推动发展、以实干书写答卷，助力习酒在高质量发展和现代化建设征途中稳步前行、砥砺奋进。[[党建铸魂强引擎]]。坚持党建工作与生产经营同频共振，将党组织的凝聚力、战斗力转化为攻坚克难的硬核执行力，以高质量党建引领习酒高质量发展。[[优质优产硕果盈]]。深耕传统酿造技艺，精准执行工艺规范，严格把控质量关口，习酒品质不断超越、不断升华。[[创新赋能赢未来]]。全面推进生产流程标准化、生产过程数字化、生产装备智能化，现代科技与传统酿造深度融合，习酒"优质优产"特色生产道路越走越宽、越走越稳。[[厚植根基强人才]]。注重人才培养，营造"比学赶帮超"良好氛围，培养"精技艺、强管理、会品评"的复合型人才，持续优化习酒人才梯队结构。[[君品之道行担当]]。将君品文化内化为"日用而不觉"的行为准则，在日常工作中争当"实干者"，在危急时刻勇做"逆行者"，展现习酒人的社会责任与大爱担当。' },
@@ -146,7 +207,7 @@
     paragraphs.forEach(p => {
         const div = document.createElement('div');
         div.className = 'paragraph' + (p.isTitle ? ' title-paragraph' : '');
-        if (p.noIndent) div.style.textIndent = '0';   // ← 不缩进
+        if (p.noIndent) div.style.textIndent = '0';
         container.appendChild(div);
         paragraphElements.push(div);
     });
@@ -188,7 +249,7 @@
 
     const total = queue.length;
 
-    // 目标播放时长：8秒（在 5~10 秒之间）
+    // 目标播放时长：8秒
     const TARGET_TIME = 8000;
     const baseDelay = Math.max(4, Math.floor(TARGET_TIME / total));
 
