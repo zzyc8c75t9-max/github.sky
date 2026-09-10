@@ -11,79 +11,253 @@
             box-sizing: border-box;
         }
         body {
-            background: #6b0f0f; /* 深红色底色，衬托信封 */
+            background: #d9d9d9; /* 灰色背景 */
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
             font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
             padding: 24px 16px;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* 背景金色装饰丝带 */
+        .bg-decor {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-decor::before {
+            content: '';
+            position: absolute;
+            top: -10%; right: -10%;
+            width: 60%; height: 60%;
+            border: 12px solid #d4af37;
+            border-radius: 50%;
+            transform: rotate(30deg);
+            opacity: 0.4;
+            filter: blur(2px);
+        }
+        .bg-decor::after {
+            content: '';
+            position: absolute;
+            bottom: -20%; left: -10%;
+            width: 70%; height: 70%;
+            border: 16px solid #d4af37;
+            border-radius: 50%;
+            transform: rotate(-45deg);
+            opacity: 0.3;
+            filter: blur(4px);
+        }
+
+        /* 信封主容器 */
         .envelope-wrapper {
             position: relative;
             width: 100%;
-            max-width: 700px;
+            max-width: 680px;
             margin: 0 auto;
-        }
-        .letter-container {
-            background: #b31b1b;
-            border-radius: 12px;
-            padding: 80px 30px 110px 30px; /* 为顶部翻盖和底部折线留出空间 */
-            position: relative;
             z-index: 1;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3), 0 15px 50px rgba(0, 0, 0, 0.6);
-        }
-        /* 顶部信封翻盖 */
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: #9e1a1a;
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
-            z-index: 2;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        /* 底部信封折线 */
-        .envelope-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: #9e1a1a;
-            clip-path: polygon(0 100%, 50% 0, 100% 100%);
-            z-index: 2;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .letter-content {
+        /* 信纸部分 */
+        .letter-paper {
+            background: #ffffff;
+            width: 88%;
+            min-height: 500px;
+            padding: 40px 30px 30px 30px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            margin-bottom: -180px; /* 让信纸插入信封 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 信纸红色边框装饰 */
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 2px solid #c62828;
+            pointer-events: none;
+            border-radius: 4px;
+        }
+
+        /* 信纸头部：Logo + 标题 + 花饰 */
+        .letter-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* 模拟习酒 Logo */
+        .logo-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background: #2e7d32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 8px rgba(46,125,50,0.3);
+        }
+        .logo-text {
+            font-size: 14px;
+            color: #333;
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+        .logo-sub {
+            font-size: 8px;
+            color: #888;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        /* 致敬信 标题 */
+        .main-title {
+            font-size: 42px;
+            color: #c62828;
+            font-weight: bold;
+            letter-spacing: 8px;
+            margin: 15px 0 10px 0;
+            text-shadow: 0 2px 4px rgba(198,40,40,0.2);
+            font-family: "STKaiti", "KaiTi", "Microsoft YaHei", serif;
+        }
+
+        /* 红色花饰 (模拟图片中的卷曲纹样) */
+        .flourish {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            color: #c62828;
+            font-size: 20px;
+        }
+        .flourish::before, .flourish::after {
+            content: '❧';
             font-size: 18px;
+            transform: scaleX(-1);
+        }
+        .flourish::after {
+            transform: scaleX(1);
+        }
+        .flourish-line {
+            width: 40px;
+            height: 2px;
+            background: #c62828;
+            border-radius: 2px;
+        }
+
+        /* 信封底部 */
+        .envelope-bottom {
+            width: 100%;
+            height: 220px;
+            background: #c62828;
+            position: relative;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 20px;
+            /* 模拟信封底部折角形状 */
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            border-radius: 0 0 12px 12px;
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 信封侧翼（左右三角） */
+        .envelope-bottom::before,
+        .envelope-bottom::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 50%;
+            height: 100%;
+            background: #b71c1c;
+            z-index: 4;
+        }
+        .envelope-bottom::before {
+            left: 0;
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+        }
+        .envelope-bottom::after {
+            right: 0;
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+        }
+
+        /* 信封中间的圆形封印 */
+        .envelope-seal {
+            position: relative;
+            z-index: 5;
+            width: 80px;
+            height: 80px;
+            background: #c62828;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+        .envelope-seal::before {
+            content: '❋';
+            color: #fff;
+            font-size: 30px;
+            opacity: 0.8;
+        }
+        .envelope-seal::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 1px dashed rgba(255,255,255,0.5);
+            border-radius: 50%;
+        }
+
+        /* 信件内容区域 */
+        .letter-content {
+            font-size: 17px;
             line-height: 2.0;
+            color: #333333; /* 信纸上正文默认黑色 */
             word-break: break-word;
             position: relative;
             z-index: 3;
+            margin-top: 10px;
         }
         .paragraph {
             text-indent: 2em;
             margin: 0;
+            color: #333333;
         }
         .title-paragraph {
             text-indent: 0;
             text-align: center;
-            font-size: 34px;
-            font-weight: 600;
-            letter-spacing: 6px;
-            text-shadow: 0 2px 12px rgba(255, 215, 0, 0.25);
-            margin-bottom: 10px;
-            line-height: 1.8;
+            font-size: 24px;
+            font-weight: bold;
+            color: #c62828;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            display: none; /* 因为信纸头部已有大标题，隐藏正文里的标题 */
         }
         .char {
             opacity: 0;
@@ -91,11 +265,12 @@
             display: inline;
         }
         .char.yellow {
-            color: #ffd700;
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.20);
+            color: #d4af37; /* 金色，在白色信纸上更显眼 */
+            text-shadow: 0 0 8px rgba(212,175,55,0.4);
+            font-weight: 600;
         }
         .char.white {
-            color: #ffffff;
+            color: #333333; /* 信纸白底，白色字看不见，改为深色 */
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(3px); }
@@ -105,7 +280,7 @@
             display: inline-block;
             width: 2px;
             height: 1.1em;
-            background: #ffd700;
+            background: #c62828;
             animation: blink 0.7s step-end infinite;
             vertical-align: text-bottom;
             margin-left: 2px;
@@ -116,77 +291,127 @@
             50% { opacity: 0; }
         }
 
-        /* 手机端增加边距 */
+        /* 手机端适配 */
         @media (max-width: 640px) {
             body {
                 padding: 16px 10px;
             }
-            .letter-container {
-                padding: 65px 20px 90px 20px;
-                border-radius: 10px;
+            .letter-paper {
+                padding: 30px 20px 20px 20px;
+                min-height: 400px;
+                margin-bottom: -140px;
             }
-            .envelope-flap {
-                height: 65px;
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
+            .letter-paper::before {
+                top: 8px; left: 8px; right: 8px; bottom: 8px;
             }
-            .envelope-bottom {
-                height: 65px;
-                border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px;
+            .main-title {
+                font-size: 32px;
+                letter-spacing: 6px;
             }
-            .letter-content {
-                font-size: 17px;
-                line-height: 2.0;
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
             }
-            .title-paragraph {
-                font-size: 28px;
-                letter-spacing: 4px;
-            }
-        }
-        @media (max-width: 400px) {
-            body {
-                padding: 12px 6px;
-            }
-            .letter-container {
-                padding: 55px 14px 80px 14px;
-                border-radius: 8px;
-            }
-            .envelope-flap {
-                height: 55px;
-                border-top-left-radius: 8px;
-                border-top-right-radius: 8px;
+            .logo-text {
+                font-size: 12px;
             }
             .envelope-bottom {
-                height: 55px;
-                border-bottom-left-radius: 8px;
-                border-bottom-right-radius: 8px;
+                height: 170px;
+            }
+            .envelope-seal {
+                width: 60px;
+                height: 60px;
+            }
+            .envelope-seal::before {
+                font-size: 24px;
+            }
+            .envelope-seal::after {
+                width: 44px;
+                height: 44px;
             }
             .letter-content {
                 font-size: 16px;
-                line-height: 2.0;
             }
-            .title-paragraph {
-                font-size: 24px;
-                letter-spacing: 3px;
+            .flourish-line {
+                width: 30px;
+            }
+        }
+        @media (max-width: 400px) {
+            .letter-paper {
+                padding: 24px 14px 16px 14px;
+                margin-bottom: -120px;
+            }
+            .main-title {
+                font-size: 28px;
+                letter-spacing: 4px;
+            }
+            .envelope-bottom {
+                height: 140px;
+            }
+            .envelope-seal {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 5px;
+            }
+            .envelope-seal::before {
+                font-size: 20px;
+            }
+            .envelope-seal::after {
+                width: 36px;
+                height: 36px;
+            }
+            .letter-content {
+                font-size: 15px;
+            }
+            .flourish {
+                gap: 10px;
+            }
+            .flourish-line {
+                width: 20px;
             }
         }
     </style>
 </head>
 <body>
-<div class="envelope-wrapper">
-    <div class="envelope-flap"></div>
-    <div class="letter-container">
-        <div class="letter-content" id="letterContent"></div>
+    <!-- 背景装饰 -->
+    <div class="bg-decor"></div>
+
+    <!-- 信封与信纸容器 -->
+    <div class="envelope-wrapper">
+        <!-- 信纸 -->
+        <div class="letter-paper">
+            <div class="letter-header">
+                <!-- 模拟习酒Logo -->
+                <div class="logo-box">
+                    <div class="logo-circle">习</div>
+                    <div class="logo-text">贵州习酒</div>
+                    <div class="logo-sub">GUIZHOU XIJIU</div>
+                </div>
+                <!-- 大标题 -->
+                <div class="main-title">致敬信</div>
+                <!-- 花饰 -->
+                <div class="flourish">
+                    <span class="flourish-line"></span>
+                    <span>❦</span>
+                    <span class="flourish-line"></span>
+                </div>
+            </div>
+            <!-- 信件正文（逐字显示） -->
+            <div class="letter-content" id="letterContent"></div>
+        </div>
+
+        <!-- 信封底部 -->
+        <div class="envelope-bottom">
+            <div class="envelope-seal"></div>
+        </div>
     </div>
-    <div class="envelope-bottom"></div>
-</div>
 
 <script>
 (function() {
-    // ---------- 致敬信全文（[[...]] 内为黄色字体） ----------
+    // ---------- 致敬信全文（[[...]] 内为黄色/金色字体） ----------
     const paragraphs = [
-        { text: '致敬信', isTitle: true },
+        // 标题在信纸头部已展示，正文不再重复标题
         { text: '亲爱的员工朋友们：', noIndent: true },
         { text: '大家好！' },
         { text: '生产复发轫，佳节又重阳。今天，我们齐聚一堂，召开2026年度生产·质量大会，系统总结过去一年的奋斗历程，共同擘画新一年的宏伟蓝图。在此，公司党委、董事会和经营班子，向辛勤耕耘在生产、质量一线的员工致以亲切的问候，向默默奋进在各条工作战线上的全体员工表达最诚挚的敬意！' },
@@ -206,7 +431,7 @@
     const paragraphElements = [];
     paragraphs.forEach(p => {
         const div = document.createElement('div');
-        div.className = 'paragraph' + (p.isTitle ? ' title-paragraph' : '');
+        div.className = 'paragraph';
         if (p.noIndent) div.style.textIndent = '0';
         container.appendChild(div);
         paragraphElements.push(div);
@@ -241,7 +466,7 @@
         chars.forEach(c => {
             queue.push({
                 char: c.char,
-                yellow: c.yellow || p.isTitle,
+                yellow: c.yellow,
                 paragraphIndex: pi
             });
         });
@@ -271,6 +496,7 @@
 
         const item = queue[idx];
         const span = document.createElement('span');
+        // 信纸背景是白色，所以“白色”字改为深灰色显示
         span.className = 'char ' + (item.yellow ? 'yellow' : 'white');
         span.textContent = item.char;
         span.style.animationDuration = '0.05s';
