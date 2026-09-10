@@ -60,7 +60,7 @@
         /* ====== 信纸 ====== */
         .letter-paper {
             position: relative;
-            z-index: 2; /* 高于信封翻盖，低于左右折角 */
+            z-index: 2;
             background: #ffffff;
             width: 86%;
             margin: 0 auto;
@@ -104,18 +104,7 @@
             margin-bottom: 4px;
             display: none;
         }
-        .logo-text {
-            font-size: 15px;
-            color: #555;
-            letter-spacing: 6px;
-            font-weight: 600;
-        }
-        .logo-sub {
-            font-size: 8px;
-            color: #999;
-            letter-spacing: 3px;
-            margin-top: 2px;
-        }
+        /* 删除了 .logo-text 和 .logo-sub 样式 */
 
         /* 标题 */
         .main-title {
@@ -202,7 +191,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        /* 左右折角 - 层级高于信纸，盖住信纸底部两侧 */
         .envelope-left {
             position: absolute;
             top: 0;
@@ -226,7 +214,6 @@
             border-bottom-right-radius: 12px;
         }
 
-        /* V形翻盖 - 层级低于信纸，被信纸遮住 */
         .envelope-flap {
             position: absolute;
             top: -60px;
@@ -238,15 +225,14 @@
             z-index: 1;
         }
 
-        /* 圆形印章（修改为图片替换区域） */
+        /* 圆形印章（修改为完整显示图片） */
         .envelope-seal {
             position: absolute;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 70px;
-            height: 70px;
-            /* 去掉原来的背景和边框，让图片完全接管 */
+            width: 80px;  /* 稍微加宽，让图片有更多空间 */
+            height: 80px;
             background: transparent;
             border: none;
             box-shadow: none;
@@ -255,19 +241,19 @@
             align-items: center;
             justify-content: center;
         }
-        /* 新增印章图片样式 */
+        /* 印章图片样式（已去掉圆形裁剪） */
         .seal-img {
             width: 100%;
             height: 100%;
             object-fit: contain; /* 保持图片比例，完整显示 */
-            border-radius: 50%; /* 让图片变成圆形 */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* 保留一点点阴影，更有立体感 */
+            /* 删除了 border-radius: 50%; 让图片不再被裁剪成圆形 */
+            /* 删除了 box-shadow，避免印章图片自带白底时阴影不协调 */
         }
         /* 印章图片加载失败时的备用 SVG */
         .seal-svg-fallback {
             width: 100%;
             height: 100%;
-            display: none; /* 默认隐藏，由 onerror 触发显示 */
+            display: none;
         }
 
         /* 响应式 */
@@ -277,10 +263,9 @@
             .main-title { font-size: 32px; letter-spacing: 6px; }
             .logo-img { width: 60px; height: 60px; }
             .logo-svg-fallback { width: 60px; height: 60px; }
-            .logo-text { font-size: 13px; }
             .envelope-bottom { height: 180px; margin-top: -70px; }
             .envelope-flap { top: -50px; height: 50px; }
-            .envelope-seal { width: 55px; height: 55px; bottom: 20px; }
+            .envelope-seal { width: 70px; height: 70px; bottom: 20px; }
             .letter-content { font-size: 16px; }
         }
         @media (max-width: 400px) {
@@ -290,7 +275,7 @@
             .logo-svg-fallback { width: 50px; height: 50px; }
             .envelope-bottom { height: 150px; margin-top: -60px; }
             .envelope-flap { top: -40px; height: 40px; }
-            .envelope-seal { width: 45px; height: 45px; bottom: 15px; }
+            .envelope-seal { width: 60px; height: 60px; bottom: 15px; }
             .letter-content { font-size: 15px; }
         }
     </style>
@@ -305,9 +290,9 @@
                 <div class="logo-box">
                     <!-- ★★★ 第一张图片：顶部 Logo ★★★ -->
                     <!-- 请将 src="logo.png" 替换为你的Logo图片文件名 -->
-                    <img class="logo-img" 
-                         src="logo.png" 
-                         alt="贵州习酒"
+                    <img class="logo-img"
+                         src="logo.png"
+                         alt="Logo"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <!-- Logo 加载失败时的备用 SVG -->
                     <svg class="logo-svg-fallback" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -315,8 +300,7 @@
                         <path d="M 35 60 Q 60 30 85 60 Q 60 90 35 60" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
                         <path d="M 48 60 Q 60 50 72 60" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
                     </svg>
-                    <div class="logo-text">贵州习酒</div>
-                    <div class="logo-sub">GUIZHOU XIJIU</div>
+                    <!-- ★★★ 已删除这里的“贵州习酒”和“GUIZHOU XIJIU”文字 ★★★ -->
                 </div>
                 <div class="main-title">致敬信</div>
                 <div class="flourish">
@@ -333,13 +317,13 @@
             <div class="envelope-flap"></div>
             <div class="envelope-left"></div>
             <div class="envelope-right"></div>
-            
-            <!-- 圆形印章区域 -->
+
+            <!-- 印章区域 -->
             <div class="envelope-seal">
                 <!-- ★★★ 第二张图片：底部印章 ★★★ -->
                 <!-- 请将 src="seal.png" 替换为你的印章图片文件名 -->
-                <img class="seal-img" 
-                     src="seal.png" 
+                <img class="seal-img"
+                     src="seal.png"
                      alt="印章"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <!-- 印章加载失败时的备用 SVG -->
