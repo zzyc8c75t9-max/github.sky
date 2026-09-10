@@ -14,7 +14,7 @@
             background: #b31b1b;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
             padding: 24px 16px;
@@ -26,63 +26,48 @@
             padding: 36px 28px;
             max-width: 700px;
             width: 100%;
-            min-height: 400px;
             position: relative;
             border: 1px solid rgba(255, 215, 0, 0.15);
         }
-        .letter-header {
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 215, 0, 0.25);
-            padding-bottom: 16px;
-        }
-        .letter-header h2 {
-            font-weight: 600;
-            letter-spacing: 4px;
-            font-size: 30px;
-            color: #ffd700;
-            text-shadow: 0 2px 12px rgba(255, 215, 0, 0.25);
-        }
-        /* 移除副标题、状态、落款，故无相关样式 */
         .letter-content {
             font-size: 18px;
             line-height: 2.0;
-            color: #ffffff;
-            white-space: pre-wrap;
             word-break: break-word;
-            min-height: 200px;
-            padding: 4px 0;
         }
-        .letter-content .char {
+        .paragraph {
+            text-indent: 2em;
+            margin: 0;
+        }
+        .title-paragraph {
+            text-indent: 0;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 12px rgba(255, 215, 0, 0.25);
+            margin-bottom: 8px;
+            line-height: 1.8;
+        }
+        .char {
             opacity: 0;
-            animation: fadeIn 0.08s forwards;
+            animation: fadeIn 0.05s forwards;
             display: inline;
         }
-        .letter-content .char-gold {
+        .char.yellow {
             color: #ffd700;
             text-shadow: 0 0 12px rgba(255, 215, 0, 0.20);
         }
-        .letter-content .char-white {
+        .char.white {
             color: #ffffff;
         }
-        .letter-content .char-center {
-            display: block;
-            text-align: center;
-        }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(4px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .cursor {
             display: inline-block;
             width: 2px;
-            height: 1.2em;
+            height: 1.1em;
             background: #ffd700;
             animation: blink 0.7s step-end infinite;
             vertical-align: text-bottom;
@@ -103,14 +88,13 @@
                 padding: 28px 20px;
                 border-radius: 14px;
             }
-            .letter-header h2 {
-                font-size: 26px;
-                letter-spacing: 3px;
-            }
             .letter-content {
                 font-size: 17px;
-                line-height: 2.1;
-                padding: 2px 2px;
+                line-height: 2.0;
+            }
+            .title-paragraph {
+                font-size: 28px;
+                letter-spacing: 3px;
             }
         }
         @media (max-width: 400px) {
@@ -121,142 +105,139 @@
                 padding: 22px 14px;
                 border-radius: 12px;
             }
-            .letter-header h2 {
-                font-size: 22px;
-                letter-spacing: 2px;
-            }
             .letter-content {
                 font-size: 16px;
                 line-height: 2.0;
+            }
+            .title-paragraph {
+                font-size: 24px;
+                letter-spacing: 2px;
             }
         }
     </style>
 </head>
 <body>
 <div class="letter-container">
-    <div class="letter-header">
-        <h2>致敬信</h2>
-        <!-- 副标题已移除 -->
-    </div>
     <div class="letter-content" id="letterContent"></div>
-    <!-- 状态提示和落款已移除 -->
 </div>
 
 <script>
-    (function() {
-        // ---------- 致敬信全文（保留原有样式） ----------
-        const sections = [{
-            text: '致敬信',
-            style: { color: '#ffd700', fontSize: '34px', fontWeight: 'bold', display: 'block',
-                textAlign: 'center', textShadow: '0 0 20px rgba(255,215,0,0.20)' }
-        }, {
-            text: '\n\n亲爱的员工朋友们：\n\n大家好！\n\n生产复发轫，佳节又重阳。今天，我们齐聚一堂，召开2026年度生产·质量大会，系统总结过去一年的奋斗历程，共同擘画新一年的宏伟蓝图。在此，公司党委、董事会和经营班子，向辛勤耕耘在生产、质量一线的员工致以亲切的问候，向默默奋进在各条工作战线上的全体员工表达最诚挚的敬意！\n\n回首这一年，我们以专注诠释责任、以合力推动发展、以实干书写答卷，助力习酒在高质量发展和现代化建设征途中稳步前行、砥砺奋进。党建铸魂强引擎。坚持党建工作与生产经营同频共振，将党组织的凝聚力、战斗力转化为攻坚克难的硬核执行力，以高质量党建引领习酒高质量发展。优质优产硕果盈。深耕传统酿造技艺，精准执行工艺规范，严格把控质量关口，习酒品质不断超越、不断升华。创新赋能赢未来。全面推进生产流程标准化、生产过程数字化、生产装备智能化，现代科技与传统酿造深度融合，习酒"优质优产"特色生产道路越走越宽、越走越稳。厚植根基强人才。注重人才培养，营造"比学赶帮超"良好氛围，培养"精技艺、强管理、会品评"的复合型人才，持续优化习酒人才梯队结构。君品之道行担当。将君品文化内化为"日用而不觉"的行为准则，在日常工作中争当"实干者"，在危急时刻勇做"逆行者"，展现习酒人的社会责任与大爱担当。',
-            style: { color: '#ffffff', fontSize: '18px' }
-        }, {
-            text: '\n\n不经一番寒彻骨，怎得梅花扑鼻香\n\n',
-            style: { color: '#ffd700', fontSize: '22px', display: 'block', textAlign: 'center',
-                textShadow: '0 0 16px rgba(255,215,0,0.15)' }
-        }, {
-            text: '回望来路，点点霜露汇聚成河。是你们，将信仰融入血脉，以坚定的态度，让生产跃动着最平稳的节奏；是你们，将星光揉进工作，以严谨的精度，让品质沉淀着最迷人的芳醇；是你们，将不懈凝于探索，以智慧的维度，让创新酝酿着最崭新的未来；是你们，将笃学化作日常，以勤奋的强度，让技能闪烁着最耀眼的光芒；是你们，将深情落在细微，以反哺的力度，让温暖延续着最幸福的价值。在此，向你们致以崇高的敬意！',
-            style: { color: '#ffd700', fontSize: '18px', textShadow: '0 0 12px rgba(255,215,0,0.12)' }
-        }, {
-            text: '\n\n江山代有才人出，各领风骚数百年\n\n',
-            style: { color: '#ffd700', fontSize: '22px', display: 'block', textAlign: 'center',
-                textShadow: '0 0 16px rgba(255,215,0,0.15)' }
-        }, {
-            text: '放怀天地，漫漫长风鼓荡作歌。让我们，以"立志欲与青云期"的魄力，在生产工作中，持续革故鼎新，谱就生产新篇章；让我们，以"莫向光阴惰寸功"的执着，在产品质量上，不断夯实基础，攀登质量新高峰；让我们，以"任尔东西南北风"的干劲，不畏艰难险阻，共筑企业梦想，为"百年习酒、世界一流"的宏伟愿景而不懈奋斗！',
-            style: { color: '#ffffff', fontSize: '18px' }
-        }, {
-            text: '\n\n过去一年，大家辛苦了！\n\n新的一年，让我们继续携手，同心同行，共铸辉煌！',
-            style: { color: '#ffffff', fontSize: '18px' }
-        }];
+(function() {
+    // ---------- 致敬信全文（[[...]] 内为黄色字体） ----------
+    const paragraphs = [
+        { text: '致敬信', isTitle: true },
+        { text: '亲爱的员工朋友们：' },
+        { text: '大家好！' },
+        { text: '生产复发轫，佳节又重阳。今天，我们齐聚一堂，召开2026年度生产·质量大会，系统总结过去一年的奋斗历程，共同擘画新一年的宏伟蓝图。在此，公司党委、董事会和经营班子，向辛勤耕耘在生产、质量一线的员工致以亲切的问候，向默默奋进在各条工作战线上的全体员工表达最诚挚的敬意！' },
+        { text: '回首这一年，我们以专注诠释责任、以合力推动发展、以实干书写答卷，助力习酒在高质量发展和现代化建设征途中稳步前行、砥砺奋进。[[党建铸魂强引擎]]。坚持党建工作与生产经营同频共振，将党组织的凝聚力、战斗力转化为攻坚克难的硬核执行力，以高质量党建引领习酒高质量发展。[[优质优产硕果盈]]。深耕传统酿造技艺，精准执行工艺规范，严格把控质量关口，习酒品质不断超越、不断升华。[[创新赋能赢未来]]。全面推进生产流程标准化、生产过程数字化、生产装备智能化，现代科技与传统酿造深度融合，习酒"优质优产"特色生产道路越走越宽、越走越稳。[[厚植根基强人才]]。注重人才培养，营造"比学赶帮超"良好氛围，培养"精技艺、强管理、会品评"的复合型人才，持续优化习酒人才梯队结构。[[君品之道行担当]]。将君品文化内化为"日用而不觉"的行为准则，在日常工作中争当"实干者"，在危急时刻勇做"逆行者"，展现习酒人的社会责任与大爱担当。' },
+        { text: '[[不经一番寒彻骨，怎得梅花扑鼻香]]' },
+        { text: '回望来路，点点霜露汇聚成河。[[是你们]]，将信仰融入血脉，以坚定的态度，让生产跃动着最平稳的节奏；[[是你们]]，将星光揉进工作，以严谨的精度，让品质沉淀着最迷人的芳醇；[[是你们]]，将不懈凝于探索，以智慧的维度，让创新酝酿着最崭新的未来；[[是你们]]，将笃学化作日常，以勤奋的强度，让技能闪烁着最耀眼的光芒；[[是你们]]，将深情落在细微，以反哺的力度，让温暖延续着最幸福的价值。在此，向你们致以崇高的敬意！' },
+        { text: '[[江山代有才人出，各领风骚数百年]]' },
+        { text: '放怀天地，漫漫长风鼓荡作歌。[[让我们]]，以"立志欲与青云期"的魄力，在生产工作中，持续革故鼎新，谱就生产新篇章；[[让我们]]，以"莫向光阴惰寸功"的执着，在产品质量上，不断夯实基础，攀登质量新高峰；[[让我们]]，以"任尔东西南北风"的干劲，不畏艰难险阻，共筑企业梦想，为"百年习酒、世界一流"的宏伟愿景而不懈奋斗！' },
+        { text: '过去一年，大家辛苦了！' },
+        { text: '新的一年，让我们继续携手，同心同行，共铸辉煌！' }
+    ];
 
-        // 计算总字符数
-        let totalChars = 0;
-        sections.forEach(sec => { totalChars += sec.text.length; });
+    const container = document.getElementById('letterContent');
+    container.innerHTML = '';
 
-        const TARGET_TIME = 8000; // 8秒播放完成
-        const delayPerChar = Math.max(4, Math.floor(TARGET_TIME / totalChars));
+    // 为每个段落创建独立 div
+    const paragraphElements = [];
+    paragraphs.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'paragraph' + (p.isTitle ? ' title-paragraph' : '');
+        container.appendChild(div);
+        paragraphElements.push(div);
+    });
 
-        const container = document.getElementById('letterContent');
-        container.innerHTML = '';
-
-        // 构建字符队列
-        const charQueue = [];
-        sections.forEach(sec => {
-            const text = sec.text;
-            const style = sec.style;
-            for (let i = 0; i < text.length; i++) {
-                charQueue.push({ char: text[i], style: style, isNewline: text[i] === '\n' });
+    // 解析 [[黄色文字]] 标记
+    function parseParagraph(text) {
+        const chars = [];
+        let i = 0;
+        let isYellow = false;
+        while (i < text.length) {
+            if (text.substring(i, i + 2) === '[[') {
+                isYellow = true;
+                i += 2;
+                continue;
             }
+            if (text.substring(i, i + 2) === ']]') {
+                isYellow = false;
+                i += 2;
+                continue;
+            }
+            chars.push({ char: text[i], yellow: isYellow });
+            i++;
+        }
+        return chars;
+    }
+
+    // 构建字符队列
+    const queue = [];
+    paragraphs.forEach((p, pi) => {
+        const chars = parseParagraph(p.text);
+        chars.forEach(c => {
+            queue.push({
+                char: c.char,
+                yellow: c.yellow || p.isTitle,   // 标题整体用黄色
+                paragraphIndex: pi
+            });
         });
+    });
 
-        const total = charQueue.length;
-        let charIndex = 0;
+    const total = queue.length;
 
-        function typeNextChar() {
-            if (charIndex >= total) {
-                // 移除光标
-                const cursor = document.querySelector('.cursor');
-                if (cursor) cursor.remove();
-                return;
-            }
+    // 目标播放时长：8秒（在 5~10 秒之间）
+    const TARGET_TIME = 8000;
+    const baseDelay = Math.max(4, Math.floor(TARGET_TIME / total));
 
-            const item = charQueue[charIndex];
-            const ch = item.char;
-            const style = item.style;
+    let idx = 0;
+    let cursorSpan = null;
 
-            const span = document.createElement('span');
-            span.className = 'char';
+    function removeCursor() {
+        if (cursorSpan && cursorSpan.parentNode) {
+            cursorSpan.parentNode.removeChild(cursorSpan);
+        }
+        cursorSpan = null;
+    }
 
-            // 应用样式
-            if (style.color === '#ffd700') {
-                span.classList.add('char-gold');
-            } else {
-                span.classList.add('char-white');
-            }
-            if (style.fontSize) span.style.fontSize = style.fontSize;
-            if (style.fontWeight) span.style.fontWeight = style.fontWeight;
-            if (style.display === 'block') span.style.display = 'block';
-            if (style.textAlign) span.style.textAlign = style.textAlign;
-            if (style.textShadow) span.style.textShadow = style.textShadow;
-
-            if (ch === '\n') {
-                span.textContent = '\n';
-                span.style.whiteSpace = 'pre';
-            } else {
-                span.textContent = ch;
-            }
-
-            const animDuration = Math.min(60, delayPerChar * 1.2);
-            span.style.animationDuration = (animDuration / 1000) + 's';
-            container.appendChild(span);
-            container.scrollTop = container.scrollHeight;
-
-            charIndex++;
-
-            if (charIndex < total) {
-                let extraDelay = 0;
-                const nextCh = charQueue[charIndex] ? charQueue[charIndex].char : '';
-                if (nextCh === '\n') extraDelay = -2;
-                else if (['，','。','；','！','？','、'].includes(nextCh)) extraDelay = 2;
-                const nextDelay = Math.max(3, delayPerChar + extraDelay);
-                setTimeout(typeNextChar, nextDelay);
-            } else {
-                setTimeout(() => {
-                    const cursor = document.querySelector('.cursor');
-                    if (cursor) cursor.remove();
-                }, 120);
-            }
+    function typeNext() {
+        if (idx >= total) {
+            removeCursor();
+            return;
         }
 
-        // 添加光标
-        const cursorSpan = document.createElement('span');
-        cursorSpan.className = 'cursor';
-        container.appendChild(cursorSpan);
+        const item = queue[idx];
+        const span = document.createElement('span');
+        span.className = 'char ' + (item.yellow ? 'yellow' : 'white');
+        span.textContent = item.char;
+        span.style.animationDuration = '0.05s';
 
-        setTimeout(typeNextChar, 200);
-    })();
+        const paraEl = paragraphElements[item.paragraphIndex];
+        paraEl.appendChild(span);
+
+        // 光标跟随
+        removeCursor();
+        cursorSpan = document.createElement('span');
+        cursorSpan.className = 'cursor';
+        paraEl.appendChild(cursorSpan);
+
+        idx++;
+
+        if (idx < total) {
+            let delay = baseDelay;
+            const nextCh = queue[idx].char;
+            if (['，', '。', '；', '！', '？', '、', '：'].includes(nextCh)) {
+                delay += 2;
+            }
+            setTimeout(typeNext, delay);
+        } else {
+            setTimeout(removeCursor, 120);
+        }
+    }
+
+    setTimeout(typeNext, 200);
+})();
 </script>
 </body>
 </html>
