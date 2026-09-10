@@ -126,7 +126,7 @@
     // ---------- 致敬信全文（[[...]] 内为黄色字体） ----------
     const paragraphs = [
         { text: '致敬信', isTitle: true },
-        { text: '亲爱的员工朋友们：'，noIndent: true },
+        { text: '亲爱的员工朋友们：', noIndent: true },   // ← 这里加 noIndent: true
         { text: '大家好！' },
         { text: '生产复发轫，佳节又重阳。今天，我们齐聚一堂，召开2026年度生产·质量大会，系统总结过去一年的奋斗历程，共同擘画新一年的宏伟蓝图。在此，公司党委、董事会和经营班子，向辛勤耕耘在生产、质量一线的员工致以亲切的问候，向默默奋进在各条工作战线上的全体员工表达最诚挚的敬意！' },
         { text: '回首这一年，我们以专注诠释责任、以合力推动发展、以实干书写答卷，助力习酒在高质量发展和现代化建设征途中稳步前行、砥砺奋进。[[党建铸魂强引擎]]。坚持党建工作与生产经营同频共振，将党组织的凝聚力、战斗力转化为攻坚克难的硬核执行力，以高质量党建引领习酒高质量发展。[[优质优产硕果盈]]。深耕传统酿造技艺，精准执行工艺规范，严格把控质量关口，习酒品质不断超越、不断升华。[[创新赋能赢未来]]。全面推进生产流程标准化、生产过程数字化、生产装备智能化，现代科技与传统酿造深度融合，习酒"优质优产"特色生产道路越走越宽、越走越稳。[[厚植根基强人才]]。注重人才培养，营造"比学赶帮超"良好氛围，培养"精技艺、强管理、会品评"的复合型人才，持续优化习酒人才梯队结构。[[君品之道行担当]]。将君品文化内化为"日用而不觉"的行为准则，在日常工作中争当"实干者"，在危急时刻勇做"逆行者"，展现习酒人的社会责任与大爱担当。' },
@@ -146,6 +146,7 @@
     paragraphs.forEach(p => {
         const div = document.createElement('div');
         div.className = 'paragraph' + (p.isTitle ? ' title-paragraph' : '');
+        if (p.noIndent) div.style.textIndent = '0';   // ← 不缩进
         container.appendChild(div);
         paragraphElements.push(div);
     });
@@ -179,7 +180,7 @@
         chars.forEach(c => {
             queue.push({
                 char: c.char,
-                yellow: c.yellow || p.isTitle,   // 标题整体用黄色
+                yellow: c.yellow || p.isTitle,
                 paragraphIndex: pi
             });
         });
@@ -216,7 +217,6 @@
         const paraEl = paragraphElements[item.paragraphIndex];
         paraEl.appendChild(span);
 
-        // 光标跟随
         removeCursor();
         cursorSpan = document.createElement('span');
         cursorSpan.className = 'cursor';
