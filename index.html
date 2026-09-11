@@ -104,7 +104,6 @@
             margin-bottom: 4px;
             display: none;
         }
-        /* 删除了 .logo-text 和 .logo-sub 样式 */
 
         /* 标题 */
         .main-title {
@@ -154,9 +153,10 @@
             animation: fadeIn 0.05s forwards;
             display: inline;
         }
-        .char.yellow {
-            color: #d4af37;
-            font-weight: 600;
+        /* ★ 修改：改为同色加粗 */
+        .char.bold {
+            color: #333;
+            font-weight: 700;
         }
         .char.white {
             color: #333;
@@ -225,13 +225,13 @@
             z-index: 1;
         }
 
-        /* 圆形印章（修改为完整显示图片） */
+        /* 圆形印章 */
         .envelope-seal {
             position: absolute;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;  /* 稍微加宽，让图片有更多空间 */
+            width: 80px;
             height: 80px;
             background: transparent;
             border: none;
@@ -241,15 +241,11 @@
             align-items: center;
             justify-content: center;
         }
-        /* 印章图片样式（已去掉圆形裁剪） */
         .seal-img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 保持图片比例，完整显示 */
-            /* 删除了 border-radius: 50%; 让图片不再被裁剪成圆形 */
-            /* 删除了 box-shadow，避免印章图片自带白底时阴影不协调 */
+            object-fit: contain;
         }
-        /* 印章图片加载失败时的备用 SVG */
         .seal-svg-fallback {
             width: 100%;
             height: 100%;
@@ -289,18 +285,15 @@
             <div class="letter-header">
                 <div class="logo-box">
                     <!-- ★★★ 第一张图片：顶部 Logo ★★★ -->
-                    <!-- 请将 src="logo.png" 替换为你的Logo图片文件名 -->
                     <img class="logo-img"
                          src="logo.png"
                          alt="Logo"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <!-- Logo 加载失败时的备用 SVG -->
                     <svg class="logo-svg-fallback" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="60" cy="60" r="55" fill="#1b5e20" />
                         <path d="M 35 60 Q 60 30 85 60 Q 60 90 35 60" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
                         <path d="M 48 60 Q 60 50 72 60" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
                     </svg>
-                    <!-- ★★★ 已删除这里的“贵州习酒”和“GUIZHOU XIJIU”文字 ★★★ -->
                 </div>
                 <div class="main-title">致敬信</div>
                 <div class="flourish">
@@ -321,12 +314,10 @@
             <!-- 印章区域 -->
             <div class="envelope-seal">
                 <!-- ★★★ 第二张图片：底部印章 ★★★ -->
-                <!-- 请将 src="seal.png" 替换为你的印章图片文件名 -->
                 <img class="seal-img"
                      src="seal.png"
                      alt="印章"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <!-- 印章加载失败时的备用 SVG -->
                 <svg class="seal-svg-fallback" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="50" cy="50" r="40" fill="none" stroke="#c62828" stroke-width="4" stroke-dasharray="10 5" />
                     <circle cx="50" cy="50" r="18" fill="#c62828" />
@@ -338,7 +329,7 @@
 
 <script>
 (function() {
-    // ---------- 致敬信全文（[[...]] 内为黄色/金色字体） ----------
+    // ---------- 致敬信全文（[[...]] 内为同色加粗字体） ----------
     const paragraphs = [
         { text: '亲爱的员工朋友们：', noIndent: true },
         { text: '大家好！' },
@@ -364,22 +355,23 @@
         paragraphElements.push(div);
     });
 
+    // 解析 [[加粗文字]] 标记
     function parseParagraph(text) {
         const chars = [];
         let i = 0;
-        let isYellow = false;
+        let isBold = false;
         while (i < text.length) {
             if (text.substring(i, i + 2) === '[[') {
-                isYellow = true;
+                isBold = true;
                 i += 2;
                 continue;
             }
             if (text.substring(i, i + 2) === ']]') {
-                isYellow = false;
+                isBold = false;
                 i += 2;
                 continue;
             }
-            chars.push({ char: text[i], yellow: isYellow });
+            chars.push({ char: text[i], bold: isBold });
             i++;
         }
         return chars;
@@ -391,7 +383,7 @@
         chars.forEach(c => {
             queue.push({
                 char: c.char,
-                yellow: c.yellow,
+                bold: c.bold,
                 paragraphIndex: pi
             });
         });
@@ -419,7 +411,8 @@
 
         const item = queue[idx];
         const span = document.createElement('span');
-        span.className = 'char ' + (item.yellow ? 'yellow' : 'white');
+        // ★ 使用 bold 或 white 类
+        span.className = 'char ' + (item.bold ? 'bold' : 'white');
         span.textContent = item.char;
         span.style.animationDuration = '0.05s';
 
